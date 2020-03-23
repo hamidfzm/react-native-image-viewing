@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState } from "react";
+import React from "react";
 import {
   Platform,
   SafeAreaView,
@@ -16,7 +16,6 @@ import {
   View
 } from "react-native";
 import get from "lodash/get";
-import memoize from "lodash/memoize";
 
 import ImageViewing from "../src/ImageViewing";
 import ImageList from "./components/ImageList";
@@ -29,9 +28,9 @@ import { city } from "./data/city";
 import { food } from "./data/food";
 
 export default function App() {
-  const [currentImageIndex, setImageIndex] = useState(0);
-  const [images, setImages] = useState(architecture);
-  const [isVisible, setIsVisible] = useState(false);
+  const [currentImageIndex, setImageIndex] = React.useState(0);
+  const [images, setImages] = React.useState(architecture);
+  const [isVisible, setIsVisible] = React.useState(false);
 
   const onSelect = (images, index) => {
     setImageIndex(index);
@@ -40,9 +39,7 @@ export default function App() {
   };
 
   const onRequestClose = () => setIsVisible(false);
-  const getImageUrls = memoize(images =>
-    images.map(image => ({ uri: image.original as string }))
-  );
+  const getItem = (data) => ({ uri: data.original });
 
   return (
     <SafeAreaView style={styles.root}>
@@ -60,7 +57,8 @@ export default function App() {
         <Text style={styles.name}>[ react-native-image-viewing ]</Text>
       </View>
       <ImageViewing
-        images={getImageUrls(images)}
+        data={images}
+        getImage={getItem}
         imageIndex={currentImageIndex}
         presentationStyle="overFullScreen"
         visible={isVisible}
@@ -68,11 +66,11 @@ export default function App() {
         HeaderComponent={
           images === travel
             ? ({ imageIndex }) => {
-                const title = get(images, `${imageIndex}.title`);
-                return (
-                  <ImageHeader title={title} onRequestClose={onRequestClose} />
-                );
-              }
+              const title = get(images, `${imageIndex}.title`);
+              return (
+                <ImageHeader title={title} onRequestClose={onRequestClose} />
+              );
+            }
             : undefined
         }
         FooterComponent={({ imageIndex }) => (

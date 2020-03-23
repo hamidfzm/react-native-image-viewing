@@ -6,7 +6,7 @@
  *
  */
 
-import React, { ComponentType, useCallback, useEffect } from "react";
+import React, { ComponentType } from "react";
 import {
   Animated,
   StyleSheet,
@@ -24,8 +24,9 @@ import useImageIndexChange from "./hooks/useImageIndexChange";
 import useRequestClose from "./hooks/useRequestClose";
 import { ImageSource, Dimensions } from "./@types";
 
-type Props = {
-  images: ImageSource[];
+type Props<T extends any> = {
+  data: ReadonlyArray<T>;
+  getImage: (item: T) => ImageSource;
   imageIndex: number;
   visible: boolean;
   onRequestClose: () => void;
@@ -42,8 +43,9 @@ type Props = {
 const DEFAULT_ANIMATION_TYPE = "fade";
 const DEFAULT_BG_COLOR = "#000";
 
-function ImageViewing({
-  images,
+function ImageViewing<T extends any>({
+  data,
+  getImage,
   imageIndex,
   visible,
   onRequestClose,
@@ -55,10 +57,10 @@ function ImageViewing({
   doubleTapToZoomEnabled,
   HeaderComponent,
   FooterComponent
-}: Props) {
+}: Props<T>) {
   const imageList = React.createRef<VirtualizedList<ImageSource>>();
   const [opacity, onRequestCloseEnhanced] = useRequestClose(onRequestClose);
-  const [layout, setLayout] = React.useState<Dimensions>({width: 0, height: 0});
+  const [layout, setLayout] = React.useState<Dimensions>({ width: 0, height: 0 });
   const [currentImageIndex, onScroll] = useImageIndexChange(imageIndex, layout);
   const [
     headerTransform,
@@ -66,13 +68,13 @@ function ImageViewing({
     toggleBarsVisible
   ] = useAnimatedComponents();
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (onImageIndexChange) {
       onImageIndexChange(currentImageIndex);
     }
   }, [currentImageIndex]);
 
-  const onZoom = useCallback(
+  const onZoom = React.useCallback(
     (isScaled: boolean) => {
       // @ts-ignore
       imageList?.current?.setNativeProps({ scrollEnabled: !isScaled });
@@ -80,6 +82,8 @@ function ImageViewing({
     },
     [imageList]
   );
+  const getItemCount = React.useCallback(() => data.length, [data]);
+  const getItem = React.useCallback((_, index) => data[index] ? getImage(data[index]) : ({ uri: "" }), [getImage, data]);
 
   return (
     <Modal
@@ -107,7 +111,7 @@ function ImageViewing({
         </Animated.View>
         <VirtualizedList
           ref={imageList}
-          data={images}
+          data={data}
           horizontal
           pagingEnabled
           windowSize={2}
@@ -116,8 +120,8 @@ function ImageViewing({
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           initialScrollIndex={imageIndex}
-          getItem={(_, index) => images[index]}
-          getItemCount={() => images.length}
+          getItem={getItem}
+          getItemCount={getItemCount}
           getItemLayout={(_, index) => ({
             length: layout.width,
             offset: layout.width * index,
@@ -169,7 +173,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const EnhancedImageViewing = (props: Props) => (
+const EnhancedImageViewing = <T extends any>(props: Props<T>) => (
   <ImageViewing key={props.imageIndex} {...props} />
 );
 
