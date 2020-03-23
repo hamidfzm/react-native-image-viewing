@@ -11,28 +11,28 @@
 - 🔥Custom header and footer components
 - 🔥Uses VirtualizedList to optimize image loading and rendering
 
-Try with Expo: https://expo.io/@antonkalinin/react-native-image-viewing
+Try with Expo: https://expo.io/@hamidfzm/react-native-image-viewing
 
 <p align="center">
-  <img src="https://github.com/jobtoday/react-native-image-viewing/blob/master/demo.gif?raw=true" height="480" />
+  <img src="https://github.com/hamidfzm/react-native-image-viewing/blob/master/demo.gif?raw=true" height="480" />
 </p>
 
 ## Installation
 
 ```bash
-yarn add react-native-image-viewing
+yarn add @hamidfzm/react-native-image-viewing
 ```
 
 or
 
 ```bash
-npm install --save react-native-image-viewing
+npm install --save @hamidfzm/react-native-image-viewing
 ```
 
 ## Usage
 
 ```jsx
-import ImageView from "react-native-image-viewing";
+import ImageView from "@hamidfzm/react-native-image-viewing";
 
 const images = [
   {
@@ -56,7 +56,7 @@ const [visible, setIsVisible] = useState(false);
 />;
 ```
 
-#### [See Example](https://github.com/jobtoday/react-native-image-viewing/blob/master/example/App.tsx#L62-L80)
+#### [See Example](https://github.com/hamidfzm/react-native-image-viewing/blob/master/example/App.tsx#L62-L80)
 
 ## Props
 
