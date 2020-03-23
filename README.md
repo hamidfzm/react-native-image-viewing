@@ -2,7 +2,7 @@
 
 > React Native modal component for viewing images as a sliding gallery.
 
-[![npm version](https://badge.fury.io/js/react-native-image-viewing.svg)](https://badge.fury.io/js/react-native-image-viewing)
+[![npm version](https://badge.fury.io/js/%40hamidfzm%2Freact-native-image-viewing.svg)](https://badge.fury.io/js/%40hamidfzm%2Freact-native-image-viewing)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 - 🔥Pinch zoom for both iOS and Android
@@ -62,7 +62,7 @@ const [visible, setIsVisible] = useState(false);
 
 | Prop name                | Description                                                                                         | Type                                                     | Required |
 | ------------------------ | --------------------------------------------------------------------------------------------------- | -------------------------------------------------------- | -------- |
-| `data`                   | Array of images to display                                                                          | ReadonlyArray<T>                                         | true     |
+| `data`                   | Array of images to display                                                                          | ReadonlyArray\<T>                                         | true     |
 | `getImage`               | Function to extract image from data                                                                 | (data: T) => ImageSource                                 | true     |
 | `imageIndex`             | Current index of image to display                                                                   | number                                                   | true     |
 | `visible`                | Is modal shown or not                                                                               | boolean                                                  | true     |
